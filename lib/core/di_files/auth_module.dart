@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:todo/data/auth_repository.dart';
+import 'package:todo/features/authentication/bloc/auth_bloc.dart';
 import 'package:todo/features/splash/bloc/splash_bloc.dart';
 
 class AuthModule {
@@ -11,5 +12,6 @@ class AuthModule {
     getIt.registerFactory<SplashBloc>(
       () => SplashBloc(authRepository: getIt<AuthRepository>()),
     );
+    getIt.registerFactory<AuthBloc>(() => AuthBloc());
   }
 }
