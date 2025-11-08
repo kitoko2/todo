@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:todo/core/theme/app_colors.dart';
 
 class CustomOutlinedButton extends StatelessWidget {
   final String text;
   final IconData? iconSuffix;
   final IconData? iconPrefix;
+  final String? prefixSvg;
 
   final VoidCallback? onPressed;
   final bool isLoading;
@@ -27,6 +29,7 @@ class CustomOutlinedButton extends StatelessWidget {
     this.isLoading = false,
     this.width,
     this.borderColor,
+    this.prefixSvg,
     this.textColor,
     this.backgroundColor,
     this.iconSuffix,
@@ -84,6 +87,11 @@ class CustomOutlinedButton extends StatelessWidget {
                     Icon(iconPrefix, color: effectiveTextColor, size: 20),
                     const SizedBox(width: 8),
                   ],
+                  if (prefixSvg != null) ...[
+                    SvgPicture.asset(prefixSvg!, width: 25, height: 25),
+                    const SizedBox(width: 8),
+                  ],
+
                   Text(
                     text,
                     style: TextStyle(

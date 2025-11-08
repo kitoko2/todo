@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:todo/domain/entities/app_user.dart';
 
 abstract class AuthEvent extends Equatable {
   const AuthEvent();
@@ -21,11 +20,17 @@ class LoginEvent extends AuthEvent {
 
 // register action
 class RegisterEvent extends AuthEvent {
-  final AppUser user;
-  
-  const RegisterEvent({required this.user});
+  final String email;
+  final String password;
+  final String username;
+
+  const RegisterEvent({
+    required this.email,
+    required this.password,
+    required this.username,
+  });
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [username, email, password];
 }
 
 class LogoutEvent extends AuthEvent {}

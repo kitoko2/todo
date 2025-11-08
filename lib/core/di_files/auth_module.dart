@@ -12,6 +12,6 @@ class AuthModule {
     getIt.registerFactory<SplashBloc>(
       () => SplashBloc(authRepository: getIt<AuthRepository>()),
     );
-    getIt.registerFactory<AuthBloc>(() => AuthBloc());
+    getIt.registerFactory<AuthBloc>(() => AuthBloc(authRepository: getIt<AuthRepository>()));
   }
 }

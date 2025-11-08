@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo/commons/buttons/custom_button.dart';
-import 'package:todo/core/theme/app_colors.dart';
-import 'package:todo/features/authentication/bloc/auth_event.dart';
-import 'package:todo/features/authentication/register_page.dart';
+import 'package:todo/core/gen/assets.gen.dart';
+import 'package:todo/features/authentication/authentication_page.dart';
 import 'package:todo/utils/extension.dart';
+import '../../commons/buttons/custom_button.dart';
 import '../../commons/buttons/custom_outline_btn.dart';
-import '../../commons/textfield/custom_field.dart'
-    show CustomTextField, TextFieldType;
-import '../../core/gen/assets.gen.dart';
-import '../home/home_page.dart';
+import '../../commons/textfield/custom_field.dart';
+import '../../core/theme/app_colors.dart';
 import 'bloc/auth_bloc.dart';
+import 'bloc/auth_event.dart';
 import 'bloc/auth_state.dart';
 
-class AuthenticationPage extends StatefulWidget {
-  static String routeName = "authentication";
-  const AuthenticationPage({super.key});
+class RegisterPage extends StatefulWidget {
+  static String routeName = "register";
+
+  const RegisterPage({super.key});
 
   @override
-  State<AuthenticationPage> createState() => _AuthenticationPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _AuthenticationPageState extends State<AuthenticationPage> {
+class _RegisterPageState extends State<RegisterPage> {
   late AuthBloc bloc;
   bool showPassword = false;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final usernameController = TextEditingController();
 
   @override
   void initState() {
@@ -57,11 +57,11 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
             ).hideCurrentSnackBar(reason: SnackBarClosedReason.dismiss);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text("Bienvenue ${state.user!.name}"),
+                content: Text("Votre compte a été créé avec succès"),
                 backgroundColor: AppColors.success,
               ),
             );
-            context.go("/${HomePage.routeName}");
+            context.go("/${AuthenticationPage.routeName}");
           }
         },
         builder: (context, state) {
@@ -74,7 +74,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Bienvenue",
+                      "Créer un compte",
                       style: TextStyle(
                         color: AppColors.black,
                         fontSize: 24,
@@ -83,7 +83,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     ),
                     8.verticalSpace,
                     Text(
-                      "Connectez-vous pour continuer",
+                      "Commencez à collaborer dès aujourd'hui",
                       style: TextStyle(
                         color: AppColors.neutral400,
                         fontSize: 17,
@@ -94,6 +94,20 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text(
+                          "Nom d'utilisateur",
+                          style: TextStyle(
+                            color: AppColors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        6.verticalSpace,
+                        CustomTextField(
+                          controller: usernameController,
+                          type: TextFieldType.text,
+                          hintText: "John Doe",
+                        ),
+                        20.verticalSpace,
                         Text(
                           "Email",
                           style: TextStyle(
@@ -120,23 +134,16 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           controller: passwordController,
                           type: TextFieldType.password,
                         ),
-
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Align(
-                            alignment: AlignmentGeometry.centerRight,
-                            child: Text("Mot de passe oublié ?"),
-                          ),
-                        ),
                       ],
                     ),
                     15.verticalSpace,
                     CustomButton(
-                      text: "Se connecter",
+                      text: "Créer un compte",
                       isLoading: state.isLoading == true,
                       onPressed: () {
                         bloc.add(
-                          LoginEvent(
+                          RegisterEvent(
+                            username: usernameController.text,
                             email: emailController.text,
                             password: passwordController.text,
                           ),
@@ -151,6 +158,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       onPressed: () {},
                       text: ("Continuer avec Google"),
                     ),
+
                     12.verticalSpace,
                     CustomOutlinedButton(
                       prefixSvg: Assets.svgs.github,
@@ -159,10 +167,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     ),
                     12.verticalSpace,
                     CreateNewAccount(
-                      label: "Vous n'avez pas de compte ? ",
-                      txtBtn: "Créer un compte",
+                      label: "Vous avez déjà un compte ? ",
+                      txtBtn: "Connectez-vous",
                       onPressed: () {
-                        context.go("/${RegisterPage.routeName}");
+                        context.go("/${AuthenticationPage.routeName}");
                       },
                     ),
                   ],
@@ -172,51 +180,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
           );
         },
       ),
-    );
-  }
-}
-
-class CreateNewAccount extends StatelessWidget {
-  final VoidCallback? onPressed;
-  final String label;
-  final String txtBtn;
-  const CreateNewAccount({
-    super.key,
-    required this.onPressed,
-    required this.label,
-    required this.txtBtn,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(label),
-        TextButton(
-          onPressed: onPressed,
-          style: TextButton.styleFrom(foregroundColor: AppColors.primary500),
-          child: Text(txtBtn, style: TextStyle(fontWeight: FontWeight.w600)),
-        ),
-      ],
-    );
-  }
-}
-
-class WhereDivider extends StatelessWidget {
-  const WhereDivider({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(child: Divider(color: AppColors.neutral400)),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Text("ou"),
-        ),
-        Expanded(child: Divider(color: AppColors.neutral400)),
-      ],
     );
   }
 }

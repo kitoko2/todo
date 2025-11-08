@@ -29,10 +29,5 @@ class AuthState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-    AppUser,
-    isLoading,
-    isAuthenticated,
-    errorMessage,
-  ];
+  List<Object?> get props => [user, isLoading, isAuthenticated, errorMessage];
 }

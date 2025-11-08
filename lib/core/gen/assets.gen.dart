@@ -27,10 +27,24 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [on1, on2, on3];
 }
 
+class $AssetsSvgsGen {
+  const $AssetsSvgsGen();
+
+  /// File path: assets/svgs/github.svg
+  String get github => 'assets/svgs/github.svg';
+
+  /// File path: assets/svgs/google.svg
+  String get google => 'assets/svgs/google.svg';
+
+  /// List of all assets
+  List<String> get values => [github, google];
+}
+
 class Assets {
   const Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsSvgsGen svgs = $AssetsSvgsGen();
 }
 
 class AssetGenImage {

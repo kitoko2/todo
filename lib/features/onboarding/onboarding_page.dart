@@ -105,7 +105,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   Text(currentItem.description),
                   Spacer(),
                   CustomButton(
-                    text: "Get Started",
+                    text: "Commencer",
                     backgroundColor: currentItem.color,
                     onPressed: () {
                       context.go("/${AuthenticationPage.routeName}");

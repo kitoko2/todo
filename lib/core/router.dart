@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todo/core/di_files/di.dart';
 import 'package:todo/features/authentication/authentication_page.dart';
 import 'package:todo/features/authentication/bloc/auth_bloc.dart';
+import 'package:todo/features/authentication/register_page.dart';
 import 'package:todo/features/home/home_page.dart';
 import 'package:todo/features/onboarding/onboarding_page.dart';
 import 'package:todo/features/splash/bloc/splash_bloc.dart';
@@ -37,9 +38,17 @@ class AppRouter {
         path: '/${AuthenticationPage.routeName}',
         name: AuthenticationPage.routeName,
         builder: (context, state) => BlocProvider(
-          create: (BuildContext context) =>
-              getIt<AuthBloc>(),
+          create: (BuildContext context) => getIt<AuthBloc>(),
           child: const AuthenticationPage(),
+        ),
+      ),
+      // register page
+      GoRoute(
+        path: '/${RegisterPage.routeName}',
+        name: RegisterPage.routeName,
+        builder: (context, state) => BlocProvider(
+          create: (BuildContext context) => getIt<AuthBloc>(),
+          child: const RegisterPage(),
         ),
       ),
       // Home page
