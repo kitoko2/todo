@@ -20,6 +20,9 @@ class AuthenticationPage extends StatefulWidget {
 class _AuthenticationPageState extends State<AuthenticationPage> {
   late AuthBloc bloc;
   bool showPassword = false;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -33,9 +36,13 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state.errorMessage != null) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.errorMessage!)));
+            passwordController.clear();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.errorMessage!),
+                backgroundColor: AppColors.badge,
+              ),
+            );
           }
         },
         builder: (context, state) {
@@ -84,6 +91,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                               fontSize: 18,
                               color: AppColors.black,
                             ),
+                            controller: emailController,
                             decoration: InputDecoration(
                               hint: Padding(
                                 padding: const EdgeInsets.only(top: 5.0),
@@ -120,15 +128,17 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           width: double.infinity,
                           child: TextField(
                             obscureText: !showPassword,
+                            obscuringCharacter: "-",
                             style: TextStyle(
                               fontSize: 18,
                               color: AppColors.black,
                             ),
+                            controller: passwordController,
                             decoration: InputDecoration(
                               hint: Padding(
                                 padding: const EdgeInsets.only(top: 5.0),
                                 child: Text(
-                                  "-----------",
+                                  "-------",
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: AppColors.textDisabled,
@@ -138,7 +148,11 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
 
                               prefixIcon: Icon(CupertinoIcons.lock),
                               suffixIcon: IconButton(
-                                icon: Icon(CupertinoIcons.eye),
+                                icon: Icon(
+                                  !showPassword
+                                      ? CupertinoIcons.eye
+                                      : CupertinoIcons.eye_slash,
+                                ),
                                 onPressed: () {
                                   setState(() {
                                     showPassword = !showPassword;
@@ -171,8 +185,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       onPressed: () {
                         bloc.add(
                           LoginEvent(
-                            email: "me@gmail.com",
-                            password: "password",
+                            email: emailController.text,
+                            password: passwordController.text,
                           ),
                         );
                       },
@@ -199,6 +213,14 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       iconPrefix: CupertinoIcons.app,
                       onPressed: () {},
                       text: ("Continuer avec Github"),
+                    ),
+                    12.verticalSpace,
+                    CustomOutlinedButton(
+                      borderColor: AppColors.primary500,
+                      textColor: AppColors.primary500,
+                      iconPrefix: CupertinoIcons.app,
+                      onPressed: () {},
+                      text: ("Créer un compte"),
                     ),
                   ],
                 ),
