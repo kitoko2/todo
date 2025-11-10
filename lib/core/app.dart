@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/core/di_files/di.dart';
+import 'package:todo/core/theme/app_colors.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -14,6 +15,14 @@ class MyApp extends StatelessWidget {
       routeInformationProvider: router.routeInformationProvider,
       debugShowCheckedModeBanner: false,
       title: "TODO",
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          primary: AppColors.primary500,
+          seedColor: AppColors.linkHover,
+          secondary: AppColors.primary600,
+        ),
+      ),
       builder: (context, child) {
         // Pour limiter l'échelle du texte en fonction de l'accessibilité de l'utilisateur
         // On lit les paramètres de MediaQuery actuels

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo/commons/buttons/custom_button.dart';
 import 'package:todo/core/gen/assets.gen.dart';
 import 'package:todo/core/theme/app_colors.dart';
+import 'package:todo/features/authentication/authentication_page.dart';
 import 'package:todo/utils/extension.dart';
 
 class _Constants {
@@ -103,9 +105,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   Text(currentItem.description),
                   Spacer(),
                   CustomButton(
-                    text: "Get Started",
+                    text: "Commencer",
                     backgroundColor: currentItem.color,
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go("/${AuthenticationPage.routeName}");
+                    },
                     width: double.infinity,
                   ),
                 ],
