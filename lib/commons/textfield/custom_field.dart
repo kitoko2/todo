@@ -120,90 +120,53 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: widget.height,
+    return Container(
+      height: 55,
       width: widget.width,
-      child: TextField(
-        controller: widget.controller,
-
-        obscureText: widget.type == TextFieldType.password && _obscureText,
-        obscuringCharacter: "•",
-        enabled: widget.enabled,
-        maxLines: widget.type == TextFieldType.password ? 1 : widget.maxLines,
-        keyboardType: _getKeyboardType(),
-        onChanged: widget.onChanged,
-        style: TextStyle(fontSize: 18, color: AppColors.black),
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(top: 25.0),
-          hintText: _getDefaultHint(),
-          hintStyle: TextStyle(fontSize: 18, color: AppColors.textDisabled),
-          prefixIcon: Icon(widget.prefixIcon ?? _getDefaultPrefixIcon()),
-          suffixIcon: _buildSuffixIcon(),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide.none,
+      decoration: BoxDecoration(
+        color: AppColors.backgroundTertiary,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 0.0),
+            child: Icon(_getDefaultPrefixIcon()),
           ),
-          filled: true,
-          fillColor: AppColors.backgroundTertiary,
-        ),
+          Expanded(
+            child: TextField(
+              controller: widget.controller,
+              obscureText:
+                  widget.type == TextFieldType.password && _obscureText,
+              obscuringCharacter: "•",
+              enabled: widget.enabled,
+              maxLines: widget.type == TextFieldType.password
+                  ? 1
+                  : widget.maxLines,
+              keyboardType: _getKeyboardType(),
+              onChanged: widget.onChanged,
+              style: TextStyle(
+                fontSize: 18,
+                color: AppColors.black,
+                fontWeight: FontWeight.w500,
+              ),
+              decoration: InputDecoration(
+                hintText: _getDefaultHint(),
+                hintStyle: TextStyle(
+                  fontSize: 18,
+                  color: AppColors.textDisabled,
+                ),
+                suffixIcon: _buildSuffixIcon(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
-
-// ============= EXEMPLES D'UTILISATION =============
-
-// 1. Champ Email
-// CustomTextField(
-//   controller: emailController,
-//   type: TextFieldType.email,
-//   hintText: "exemple@email.com",
-//   labelText: "Email",
-// )
-
-// 2. Champ Mot de passe
-// CustomTextField(
-//   controller: passwordController,
-//   type: TextFieldType.password,
-//   labelText: "Mot de passe",
-// )
-
-// 3. Champ Nom
-// CustomTextField(
-//   controller: nameController,
-//   type: TextFieldType.text,
-//   hintText: "Entrez votre nom",
-//   labelText: "Nom complet",
-//   prefixIcon: CupertinoIcons.person,
-// )
-
-// 4. Champ Téléphone
-// CustomTextField(
-//   controller: phoneController,
-//   type: TextFieldType.phone,
-//   hintText: "+225 XX XX XX XX",
-//   labelText: "Téléphone",
-// )
-
-// 5. Champ personnalisé avec icône suffix
-// CustomTextField(
-//   controller: searchController,
-//   type: TextFieldType.text,
-//   hintText: "Rechercher...",
-//   prefixIcon: CupertinoIcons.search,
-//   suffixIcon: CupertinoIcons.xmark_circle_fill,
-//   onSuffixIconPressed: () {
-//     searchController.clear();
-//   },
-// )
-
-// 6. Zone de texte multiligne
-// CustomTextField(
-//   controller: bioController,
-//   type: TextFieldType.text,
-//   hintText: "Parlez-nous de vous...",
-//   labelText: "Biographie",
-//   maxLines: 5,
-//   height: 150,
-//   prefixIcon: CupertinoIcons.doc_text,
-// )

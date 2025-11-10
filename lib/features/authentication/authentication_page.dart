@@ -90,6 +90,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
+
                     40.verticalSpace,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,12 +136,19 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       text: "Se connecter",
                       isLoading: state.isLoading == true,
                       onPressed: () {
-                        bloc.add(
-                          LoginEvent(
-                            email: emailController.text,
-                            password: passwordController.text,
-                          ),
-                        );
+                        if (emailController.text.isEmpty &&
+                            passwordController.text.isEmpty) {
+                          state.copyWith(
+                            errorMessage: "Veuillez remplir tous les champs",
+                          );
+                        } else {
+                          bloc.add(
+                            LoginEvent(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            ),
+                          );
+                        }
                       },
                     ),
                     15.verticalSpace,
@@ -159,7 +167,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     ),
                     12.verticalSpace,
                     CreateNewAccount(
-                      label: "Vous n'avez pas de compte ? ",
+                      label: "Vous n'avez pas de compte ?",
                       txtBtn: "Créer un compte",
                       onPressed: () {
                         context.go("/${RegisterPage.routeName}");

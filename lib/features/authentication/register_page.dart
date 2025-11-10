@@ -105,7 +105,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         CustomTextField(
                           controller: usernameController,
                           type: TextFieldType.text,
-                          hintText: "John Doe",
+                          hintText: "john doe",
                         ),
                         20.verticalSpace,
                         Text(
@@ -141,13 +141,21 @@ class _RegisterPageState extends State<RegisterPage> {
                       text: "Créer un compte",
                       isLoading: state.isLoading == true,
                       onPressed: () {
-                        bloc.add(
-                          RegisterEvent(
-                            username: usernameController.text,
-                            email: emailController.text,
-                            password: passwordController.text,
-                          ),
-                        );
+                        if (emailController.text.isEmpty &&
+                            passwordController.text.isEmpty &&
+                            usernameController.text.isEmpty) {
+                          state.copyWith(
+                            errorMessage: "Veuillez remplir tous les champs",
+                          );
+                        } else {
+                          bloc.add(
+                            RegisterEvent(
+                              username: usernameController.text,
+                              email: emailController.text,
+                              password: passwordController.text,
+                            ),
+                          );
+                        }
                       },
                     ),
                     15.verticalSpace,
@@ -167,7 +175,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     12.verticalSpace,
                     CreateNewAccount(
-                      label: "Vous avez déjà un compte ? ",
+                      label: "Vous avez déjà un compte ?",
                       txtBtn: "Connectez-vous",
                       onPressed: () {
                         context.go("/${AuthenticationPage.routeName}");
