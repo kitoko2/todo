@@ -66,13 +66,14 @@ class _RegisterPageState extends State<RegisterPage> {
         },
         builder: (context, state) {
           return SafeArea(
-            child: Center(
+            child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 22.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    40.verticalSpace,
                     Text(
                       "Créer un compte",
                       style: TextStyle(

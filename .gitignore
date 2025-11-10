@@ -46,3 +46,22 @@ app.*.map.json
 
 # FVM Version Cache
 .fvm/
+
+# Xcode workspace
+ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/
+ios/Runner.xcodeproj/xcuserdata/
+
+# Swift Package Manager
+ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+*.xcscmblueprint
+*.xccheckout
+
+# Pods
+ios/Pods/
+ios/.symlinks/
+
+# Build artifacts
+ios/build/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec

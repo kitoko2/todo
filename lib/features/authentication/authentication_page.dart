@@ -66,13 +66,14 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
         },
         builder: (context, state) {
           return SafeArea(
-            child: Center(
+            child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 22.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    20.verticalSpace,
                     Text(
                       "Bienvenue",
                       style: TextStyle(
@@ -125,7 +126,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
                           child: Align(
-                            alignment: AlignmentGeometry.centerRight,
+                            // alignment: AlignmentGeometry.centerRight,
                             child: Text("Mot de passe oublié ?"),
                           ),
                         ),
