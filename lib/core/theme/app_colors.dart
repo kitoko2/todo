@@ -64,6 +64,7 @@ class AppColors {
   // ============ Couleurs d'interface ============
   /// Backgrounds
   static const Color background = Color(0xFFFFFFFF);
+  static const Color card = Color(0x64CCEFE0);
   static const Color backgroundSecondary = Color(0xFFF9FAFB);
   static const Color backgroundTertiary = Color(0xFFF3F4F6);
 

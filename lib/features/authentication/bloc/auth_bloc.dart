@@ -13,7 +13,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LogoutEvent>(logoutUser);
   }
 
-  // Ajoutez des logs pour débugger
   void loginUser(LoginEvent event, Emitter<AuthState> emit) async {
     emit(state.copyWith(isLoading: true));
     try {

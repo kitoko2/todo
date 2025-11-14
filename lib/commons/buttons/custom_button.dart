@@ -8,6 +8,7 @@ class CustomButton extends StatelessWidget {
   final String text;
   final String? iconSuffix;
   final String? iconPrefix;
+  final Widget? prefix;
 
   final VoidCallback? onPressed;
   final bool isLoading;
@@ -31,6 +32,7 @@ class CustomButton extends StatelessWidget {
     this.textColor,
     this.iconSuffix,
     this.iconPrefix,
+    this.prefix,
     this.disabled,
     this.radius,
     this.height,
@@ -62,7 +64,11 @@ class CustomButton extends StatelessWidget {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (iconPrefix != null) ...[
+                  if (prefix != null && iconPrefix == null) ...[
+                    prefix!,
+                    8.horizontalSpace,
+                  ],
+                  if (iconPrefix != null && prefix == null) ...[
                     SvgPicture.asset(
                       iconPrefix!,
                       colorFilter: getColorFiler(textColor ?? Colors.white),

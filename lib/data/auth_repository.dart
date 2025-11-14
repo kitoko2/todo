@@ -26,7 +26,6 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<bool> isAuthenticated() async {
     try {
       final user = _firebaseAuth.currentUser;
-      signOut();
       return user != null;
     } catch (e) {
       return false;
