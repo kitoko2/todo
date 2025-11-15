@@ -79,6 +79,7 @@ class AppColors {
 
   /// Dividers
   static const Color divider = Color(0xFFE5E7EB);
+  static const Color greenDivider = Color(0xFFD2E3D8);
 
   /// Overlay / Shadow
   static const Color overlay = Color(0x1A000000); // 10% noir

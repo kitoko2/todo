@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:todo/commons/buttons/custom_button.dart';
 import 'package:todo/core/theme/app_colors.dart';
+import 'package:todo/features/home/note_view.dart';
 import 'package:todo/utils/extension.dart';
 
 class NotesSize {
@@ -24,7 +24,6 @@ class _HomePageState extends State<HomePage>
   late TabController _tabController;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
   }
@@ -77,16 +76,20 @@ class _HomePageState extends State<HomePage>
                 ),
                 title: Text(
                   "Johny Johny ",
-                  style: TextStyle(color: AppColors.black, fontSize: 18.0),
+                  style: TextStyle(
+                    color: AppColors.primary500,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18.0,
+                  ),
                 ),
                 actions: [
                   IconButton(
                     onPressed: () {},
-                    icon: Icon(CupertinoIcons.search),
+                    icon: Icon(CupertinoIcons.search, color: AppColors.link),
                   ),
                   IconButton(
                     onPressed: () {},
-                    icon: Icon(CupertinoIcons.ellipsis),
+                    icon: Icon(CupertinoIcons.ellipsis, color: AppColors.link),
                   ),
                 ],
               ),
@@ -96,7 +99,7 @@ class _HomePageState extends State<HomePage>
                   child: Column(
                     children: [
                       4.verticalSpace,
-                      Divider(color: AppColors.divider, thickness: 2),
+                      Divider(color: AppColors.greenDivider, thickness: 2),
                       TabBar(
                         controller: _tabController,
                         dividerColor: Colors.transparent,
@@ -112,28 +115,7 @@ class _HomePageState extends State<HomePage>
                           controller: _tabController,
                           physics: const BouncingScrollPhysics(),
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 22.0),
-                              child: MasonryGridView.count(
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 12,
-                                crossAxisSpacing: 12,
-                                physics: BouncingScrollPhysics(),
-                                itemCount: 19,
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    height: index.isEven
-                                        ? NotesSize.cardSize
-                                        : NotesSize.cardSize + 50,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.card,
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
+                            MyNotesView(),
                             Center(child: Text("Groupes")),
                           ],
                         ),
@@ -149,3 +131,4 @@ class _HomePageState extends State<HomePage>
     );
   }
 }
+

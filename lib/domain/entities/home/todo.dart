@@ -9,7 +9,6 @@ class Todo {
   final DateTime? createdAt;
   final DateTime? completedAt;
   final DateTime? dueDate;
-  final String? priority; // 'low', 'medium', 'high'
 
   Todo({
     required this.id,
@@ -20,7 +19,6 @@ class Todo {
     this.createdAt,
     this.completedAt,
     this.dueDate,
-    this.priority,
   });
 
   // Créer un Todo depuis un document Firestore
@@ -35,7 +33,6 @@ class Todo {
       createdAt: (data['createdAt'] as Timestamp?)?.toDate(),
       completedAt: (data['completedAt'] as Timestamp?)?.toDate(),
       dueDate: (data['dueDate'] as Timestamp?)?.toDate(),
-      priority: data['priority'],
     );
   }
 
@@ -53,7 +50,6 @@ class Todo {
           ? Timestamp.fromDate(completedAt!)
           : null,
       'dueDate': dueDate != null ? Timestamp.fromDate(dueDate!) : null,
-      'priority': priority,
     };
   }
 
@@ -67,7 +63,6 @@ class Todo {
     DateTime? createdAt,
     DateTime? completedAt,
     DateTime? dueDate,
-    String? priority,
   }) {
     return Todo(
       id: id ?? this.id,
@@ -78,7 +73,6 @@ class Todo {
       createdAt: createdAt ?? this.createdAt,
       completedAt: completedAt ?? this.completedAt,
       dueDate: dueDate ?? this.dueDate,
-      priority: priority ?? this.priority,
     );
   }
 
@@ -89,19 +83,6 @@ class Todo {
   }
 
   bool get hasDueDate => dueDate != null;
-
-  String get priorityLabel {
-    switch (priority) {
-      case 'high':
-        return 'Haute';
-      case 'medium':
-        return 'Moyenne';
-      case 'low':
-        return 'Basse';
-      default:
-        return 'Non définie';
-    }
-  }
 
   @override
   String toString() {
