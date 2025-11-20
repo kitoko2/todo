@@ -32,4 +32,15 @@ class AppUser {
       emailVerified: emailVerified ?? this.emailVerified,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'email': email,
+      'name': name,
+      'phoneNumber': phoneNumber,
+      'photoUrl': photoUrl,
+      'emailVerified': emailVerified,
+    };
+  }
 }

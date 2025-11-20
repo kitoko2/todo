@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo/core/errors/failures.dart';
 import 'package:todo/domain/entities/app_user.dart';
 import 'package:todo/domain/entities/register_form_data.dart';
+
+import '../utils/constants/firebase_collection.dart';
 
 abstract class AuthRepository {
   Future<bool> isAuthenticated();
@@ -18,9 +21,13 @@ abstract class AuthRepository {
 
 class AuthRepositoryImpl implements AuthRepository {
   final FirebaseAuth _firebaseAuth;
+  final FirebaseFirestore _firebaseFirestore;
 
-  AuthRepositoryImpl({FirebaseAuth? firebaseAuth})
-    : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
+  AuthRepositoryImpl({
+    FirebaseAuth? firebaseAuth,
+    FirebaseFirestore? firebaseFirestore,
+  }) : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
+       _firebaseFirestore = firebaseFirestore ?? FirebaseFirestore.instance;
 
   @override
   Future<bool> isAuthenticated() async {
@@ -120,11 +127,17 @@ class AuthRepositoryImpl implements AuthRepository {
         phoneNumber: formData.phoneNumber,
         emailVerified: updatedUser.emailVerified,
       );
+      _firebaseFirestore
+          .collection(FirebaseCollections.usersCollection)
+          .doc(user.id)
+          .set(user.toJson());
 
       return Right(user);
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (e, s) {
+      print(s);
       return Left(handleAuthException(e));
-    } catch (e) {
+    } catch (e, s) {
+      print(s);
       return Left(ServerFailure(message: e.toString()));
     }
   }

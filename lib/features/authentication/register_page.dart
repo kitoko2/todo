@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/core/gen/assets.gen.dart';
 import 'package:todo/features/authentication/authentication_page.dart';
+import 'package:todo/features/home/home_page.dart';
 import 'package:todo/utils/extension.dart';
 import '../../commons/buttons/custom_button.dart';
 import '../../commons/buttons/custom_outline_btn.dart';
@@ -61,7 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 backgroundColor: AppColors.success,
               ),
             );
-            context.go("/${AuthenticationPage.routeName}");
+            context.go("/${HomePage.routeName}");
           }
         },
         builder: (context, state) {
