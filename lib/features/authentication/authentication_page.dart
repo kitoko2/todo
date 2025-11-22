@@ -52,15 +52,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               ),
             );
           } else if (state.user != null) {
-            ScaffoldMessenger.of(
-              context,
-            ).hideCurrentSnackBar(reason: SnackBarClosedReason.dismiss);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Bienvenue ${state.user!.name}"),
-                backgroundColor: AppColors.success,
-              ),
-            );
             context.go("/${HomePage.routeName}");
           }
         },

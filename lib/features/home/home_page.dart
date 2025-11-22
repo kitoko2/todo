@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/commons/buttons/custom_button.dart';
 import 'package:todo/core/theme/app_colors.dart';
-import 'package:todo/domain/entities/home/notes.dart';
 import 'package:todo/features/authentication/authentication_page.dart';
 import 'package:todo/features/authentication/bloc/auth_event.dart';
 import 'package:todo/features/authentication/bloc/auth_state.dart';
 import 'package:todo/features/home/bloc/notes/note_bloc.dart';
-import 'package:todo/features/home/note_view.dart';
+import 'package:todo/features/home/pages/create_note.dart';
+import 'package:todo/features/home/tabs/note_tab_view.dart';
 import 'package:todo/utils/extension.dart';
 
 import '../authentication/bloc/auth_bloc.dart';
@@ -63,6 +63,7 @@ class _HomePageState extends State<HomePage>
                 // --- AUTH LISTENER ---
                 BlocListener<AuthBloc, AuthState>(
                   listener: (context, state) {
+                
                     if (state.user == null) {
                       context.goNamed(AuthenticationPage.routeName);
                     }
@@ -72,7 +73,7 @@ class _HomePageState extends State<HomePage>
                 // --- NOTIFICATION LISTENER ---
                 BlocListener<NoteBloc, NoteState>(
                   listener: (context, state) {
-                    if (state.message != null) {
+                    if (state.success != null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text("🔔 ${state.message}")),
                       );
@@ -89,23 +90,7 @@ class _HomePageState extends State<HomePage>
                     text: "Nouvelle note",
                     //  isLoading: state.isLoading ?? false,
                     onPressed: () {
-                      print(authbloc.user!.id);
-                      noteBloc.add(
-                        CreateNoteEvent(
-                          note: Notes(
-                            title: "Welcome ",
-                            description: "Welcome to abidjan",
-                            tags: ["Personnel", "Travail", "Finance"],
-                            //createdAt: DateTime.now(),
-                            todoItems: [
-                              Todo(title: "Todo1", check: false),
-                              Todo(title: "Todo2", check: false),
-                              Todo(title: "Todo3", check: false),
-                            ],
-                            uid: authbloc.user!.id,
-                          ),
-                        ),
-                      );
+                      context.push("/${CreateNoteView.routeName}/${ authbloc.user!.id}" );
                     },
                     width: NotesSize.newBtnSize,
                     prefix: Icon(Icons.add_box_rounded, color: Colors.white),

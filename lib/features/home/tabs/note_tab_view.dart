@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:todo/core/theme/app_colors.dart';
-import 'package:todo/domain/entities/home/notes.dart';
 import 'package:todo/features/home/bloc/notes/note_bloc.dart';
 import 'package:todo/utils/extension.dart';
 

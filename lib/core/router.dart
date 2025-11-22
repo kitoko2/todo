@@ -6,6 +6,7 @@ import 'package:todo/features/authentication/authentication_page.dart';
 import 'package:todo/features/authentication/register_page.dart';
 import 'package:todo/features/home/bloc/notes/note_bloc.dart';
 import 'package:todo/features/home/home_page.dart';
+import 'package:todo/features/home/pages/create_note.dart';
 import 'package:todo/features/onboarding/onboarding_page.dart';
 import 'package:todo/features/splash/bloc/splash_bloc.dart';
 import 'package:todo/features/splash/splash_page.dart';
@@ -50,10 +51,21 @@ class AppRouter {
         path: '/${HomePage.routeName}',
         name: HomePage.routeName,
         builder: (context, state) => BlocProvider(
-          create: (BuildContext context) =>
-              getIt<NoteBloc>(),
+          create: (BuildContext context) => getIt<NoteBloc>(),
           child: const HomePage(),
         ),
+      ),
+      // Create note page
+      GoRoute(
+        path: '/${CreateNoteView.routeName}/:userID',
+        name: CreateNoteView.routeName,
+        builder: (context, state) {
+          final userID = state.pathParameters['userID']!;
+          return BlocProvider(
+            create: (BuildContext context) => getIt<NoteBloc>(),
+            child: CreateNoteView(userID: userID.toString()),
+          );
+        },
       ),
     ],
   );

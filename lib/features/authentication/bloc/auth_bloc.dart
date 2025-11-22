@@ -12,7 +12,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LoginEvent>(loginUser);
     on<RegisterEvent>(registerUser);
     on<LogoutEvent>(logoutUser);
-   }
+  }
 
   AppUser? get user => authRepository.getCurrentUser();
   void loginUser(LoginEvent event, Emitter<AuthState> emit) async {
@@ -59,14 +59,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void logoutUser(LogoutEvent event, Emitter<AuthState> emit) async {
     emit(state.copyWith(isLoading: true));
     try {
-      authRepository.signOut();
-      emit(state.copyWith(user: null));
+      final result = await authRepository.signOut();
+
+      result.fold(
+        (failure) => emit(state.copyWith(errorMessage: failure.message)),
+        (user) => emit(state.copyWith(user: null)),
+      );
     } catch (e) {
       emit(state.copyWith(errorMessage: e.toString()));
     } finally {
       emit(state.copyWith(isLoading: false));
     }
   }
-
- 
 }
