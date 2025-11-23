@@ -99,8 +99,8 @@ class CreateNote extends StatelessWidget {
         actions: appBarActions(
           logic: noteLogic,
           uid: userID,
-          title: titleController.value.text,
-          content: contentController.value.text,
+          title: titleController,
+          content: contentController,
         ),
       ),
 
@@ -160,7 +160,6 @@ class NoteTagsComponents extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      // crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
           child: SingleChildScrollView(
@@ -251,8 +250,8 @@ class NoteTagsComponents extends StatelessWidget {
 List<Widget> appBarActions({
   required NoteBloc logic,
   required String uid,
-  required String title,
-  required String content,
+  required TextEditingController title,
+  required TextEditingController content,
 }) {
   return [
     IconButton(
@@ -279,10 +278,9 @@ List<Widget> appBarActions({
         logic.add(
           CreateNoteEvent(
             note: Notes(
-              title: title,
-              description: content,
+              title: title.value.text,
+              description: content.value.text,
               tags: logic.state.tags.map((e) => e.label).toList(),
-              //createdAt: DateTime.now(),
               todoItems: [],
               uid: uid,
             ),

@@ -78,7 +78,7 @@ class MyNotesView extends StatelessWidget {
                       // content
                       Text(
                         note.description ?? "",
-                        maxLines: index.isEven ? 4 : 6,
+                        maxLines: index.isEven ? 2 : 6,
                         style: TextStyle(overflow: TextOverflow.ellipsis),
                       ),
                       10.verticalSpace,

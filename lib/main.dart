@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/core/app.dart';
 import 'package:todo/core/di_files/di.dart';
 import 'package:todo/features/authentication/bloc/auth_bloc.dart';
-import 'package:todo/features/splash/bloc/splash_bloc.dart';
 import 'package:todo/firebase_options.dart';
 
 Future<void> main() async {
@@ -13,7 +12,6 @@ Future<void> main() async {
   // Initialize dependencies
   await Di.init();
 
-  // runApp(const MyApp());
   runApp(
     MultiBlocProvider(
       providers: [
