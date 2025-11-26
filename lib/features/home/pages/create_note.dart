@@ -17,9 +17,10 @@ class CreateNoteSize {
 
 class CreateNoteView extends StatefulWidget {
   static String routeName = 'create-note';
-  const CreateNoteView({super.key, required this.userID});
+  const CreateNoteView({super.key, required this.userID, this.editNote});
 
   final String userID;
+  final Notes? editNote;
 
   @override
   State<CreateNoteView> createState() => _CreateNoteViewState();
@@ -29,11 +30,19 @@ class _CreateNoteViewState extends State<CreateNoteView> {
   late NoteBloc noteBloc;
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
-
+  bool isUpdate = false;
   @override
   void initState() {
     super.initState();
     noteBloc = context.read<NoteBloc>();
+    if (widget.editNote != null) {
+      titleController.text = widget.editNote!.title ?? "";
+      contentController.text = widget.editNote!.description ?? "";
+      isUpdate = true;
+      for (var tag in NoteTags.tagsFromLabels(widget.editNote!.tags)) {
+        noteBloc.add(AddTagEvent(tag: tag));
+      }
+    }
   }
 
   @override
@@ -50,6 +59,7 @@ class _CreateNoteViewState extends State<CreateNoteView> {
           titleController: titleController,
           contentController: contentController,
           userID: widget.userID,
+          noteid: widget.editNote?.id,
         );
       },
     );
@@ -63,11 +73,13 @@ class CreateNote extends StatelessWidget {
     required this.titleController,
     required this.contentController,
     required this.userID,
+    required this.noteid,
   });
   final NoteBloc noteLogic;
   final TextEditingController titleController;
   final TextEditingController contentController;
   final String userID;
+  final String? noteid;
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +103,7 @@ class CreateNote extends StatelessWidget {
 
             8.horizontalSpace,
             Text(
-              "Créer",
+              (noteid != null) ? "Modifier" : "Créer",
               style: TextStyle(color: AppColors.primary500, fontSize: 18.0),
             ),
           ],
@@ -101,6 +113,7 @@ class CreateNote extends StatelessWidget {
           uid: userID,
           title: titleController,
           content: contentController,
+          noteid: noteid,
         ),
       ),
 
@@ -252,6 +265,7 @@ List<Widget> appBarActions({
   required String uid,
   required TextEditingController title,
   required TextEditingController content,
+  required String? noteid,
 }) {
   return [
     IconButton(
@@ -275,16 +289,28 @@ List<Widget> appBarActions({
     IconButton(
       icon: Icon(CupertinoIcons.check_mark, color: AppColors.primary500),
       onPressed: () {
+        
         logic.add(
-          CreateNoteEvent(
-            note: Notes(
-              title: title.value.text,
-              description: content.value.text,
-              tags: logic.state.tags.map((e) => e.label).toList(),
-              todoItems: [],
-              uid: uid,
-            ),
-          ),
+          (noteid != null)
+              ? UpdateNoteEvent(
+                  note: Notes(
+                    title: title.value.text,
+                    description: content.value.text,
+                    tags: logic.state.tags.map((e) => e.label).toList(),
+                    todoItems: [],
+                    uid: uid,
+                    id: noteid,
+                  ),
+                )
+              : CreateNoteEvent(
+                  note: Notes(
+                    title: title.value.text,
+                    description: content.value.text,
+                    tags: logic.state.tags.map((e) => e.label).toList(),
+                    todoItems: [],
+                    uid: uid,
+                  ),
+                ),
         );
       },
     ),

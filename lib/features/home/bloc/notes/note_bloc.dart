@@ -140,7 +140,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
   void _createNote(CreateNoteEvent event, Emitter<NoteState> emit) async {
     try {
-      emit(state.copyWith(isLoading: true, message: "Creation en cours ..."));
       await noteRepository.createNote(event.note);
       emit(state.copyWith(message: "Note créée avec succès.", success: true));
     } catch (e) {
@@ -153,10 +152,15 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   }
 
   void _updateNote(UpdateNoteEvent event, Emitter<NoteState> emit) async {
-    try {} catch (e) {
+    try {
+      await noteRepository.updateNote(event.note);
+      emit(
+        state.copyWith(message: "Note mise à jour avec succès.", success: true),
+      );
+    } catch (e) {
       emit(state.copyWith(isLoading: false, message: e.toString()));
     } finally {
-      emit(state.copyWith(isLoading: false, message: null));
+      emit(state.copyWith(isLoading: false));
     }
   }
 

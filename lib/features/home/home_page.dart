@@ -63,7 +63,6 @@ class _HomePageState extends State<HomePage>
                 // --- AUTH LISTENER ---
                 BlocListener<AuthBloc, AuthState>(
                   listener: (context, state) {
-                
                     if (state.user == null) {
                       context.goNamed(AuthenticationPage.routeName);
                     }
@@ -74,6 +73,9 @@ class _HomePageState extends State<HomePage>
                 BlocListener<NoteBloc, NoteState>(
                   listener: (context, state) {
                     if (state.success != null) {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar(
+                        reason: SnackBarClosedReason.dismiss,
+                      );
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text("🔔 ${state.message}")),
                       );
@@ -90,7 +92,9 @@ class _HomePageState extends State<HomePage>
                     text: "Nouvelle note",
                     //  isLoading: state.isLoading ?? false,
                     onPressed: () {
-                      context.push("/${CreateNoteView.routeName}/${ authbloc.user!.id}" );
+                      context.push(
+                        "/${CreateNoteView.routeName}/${authbloc.user!.id}",
+                      );
                     },
                     width: NotesSize.newBtnSize,
                     prefix: Icon(Icons.add_box_rounded, color: Colors.white),

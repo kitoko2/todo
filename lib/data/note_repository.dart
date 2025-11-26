@@ -43,7 +43,7 @@ class NoteRepositoryImpl implements NoteRepository {
         // TODO: à revoir
         // .orderBy('createdAt', descending: true)
         .snapshots();
-   
+
     return result;
   }
 
@@ -62,12 +62,10 @@ class NoteRepositoryImpl implements NoteRepository {
   @override
   Future<void> updateNote(Notes note) async {
     try {
-      // await _firebaseFirestore
-      //     .collection('users')
-      //     .doc(userId)
-      //     .collection('notes')
-      //     .doc(note.id)
-      //     .update(note.toMap());
+      await _firebaseFirestore
+          .collection('notes')
+          .doc(note.id)
+          .update(note.toFirestore());
     } catch (e) {
       throw Exception("Erreur lors de la mise à jour de la note : $e");
     }

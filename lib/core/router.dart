@@ -11,6 +11,8 @@ import 'package:todo/features/onboarding/onboarding_page.dart';
 import 'package:todo/features/splash/bloc/splash_bloc.dart';
 import 'package:todo/features/splash/splash_page.dart';
 
+import '../domain/entities/home/notes.dart';
+
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 class AppRouter {
@@ -61,9 +63,13 @@ class AppRouter {
         name: CreateNoteView.routeName,
         builder: (context, state) {
           final userID = state.pathParameters['userID']!;
+          final editNote = state.extra as Notes?;
           return BlocProvider(
             create: (BuildContext context) => getIt<NoteBloc>(),
-            child: CreateNoteView(userID: userID.toString()),
+            child: CreateNoteView(
+              userID: userID.toString(),
+              editNote: editNote,
+            ),
           );
         },
       ),

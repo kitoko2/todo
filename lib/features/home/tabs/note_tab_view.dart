@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo/core/theme/app_colors.dart';
 import 'package:todo/features/home/bloc/notes/note_bloc.dart';
 import 'package:todo/utils/extension.dart';
+
+import '../pages/create_note.dart';
 
 class NotesSize {
   NotesSize._();
@@ -38,69 +41,77 @@ class MyNotesView extends StatelessWidget {
             itemCount: notes.length,
             itemBuilder: (context, index) {
               final note = notes[index];
-              return Container(
-                height: index.isEven
-                    ? NotesSize.cardSize
-                    : NotesSize.cardSize + 50,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: AppColors.card,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // create at
-                      Text(note.date),
-                      // title
-                      Text(
-                        note.title,
-                        maxLines: 2,
-                        style: TextStyle(
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.bold,
+              return GestureDetector(
+                onTap: () {
+                  context.push(
+                    "/${CreateNoteView.routeName}/${note.uid}",
+                    extra: note,
+                  );
+                },
+                child: Container(
+                  height: index.isEven
+                      ? NotesSize.cardSize
+                      : NotesSize.cardSize + 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: AppColors.card,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // create at
+                        Text(note.date),
+                        // title
+                        Text(
+                          note.title ?? "",
+                          maxLines: 2,
+                          style: TextStyle(
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      10.verticalSpace,
-                      // TAG
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: note.tags
-                              .map((tag) => TagItem(tag: tag))
-                              .toList(),
+                        10.verticalSpace,
+                        // TAG
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: note.tags
+                                .map((tag) => TagItem(tag: tag))
+                                .toList(),
+                          ),
                         ),
-                      ),
 
-                      10.verticalSpace,
-                      // content
-                      Text(
-                        note.description ?? "",
-                        maxLines: index.isEven ? 2 : 6,
-                        style: TextStyle(overflow: TextOverflow.ellipsis),
-                      ),
-                      10.verticalSpace,
-                      Expanded(
-                        child: Column(
-                          children: note.todoItems
-                              .map(
-                                (todo) => Row(
-                                  children: [
-                                    Icon(
-                                      CupertinoIcons.circle_filled,
-                                      size: 10.0,
-                                    ),
-                                    10.horizontalSpace,
-                                    Text(todo.title),
-                                  ],
-                                ),
-                              )
-                              .toList(),
+                        10.verticalSpace,
+                        // content
+                        Text(
+                          note.description ?? "",
+                          maxLines: index.isEven ? 2 : 6,
+                          style: TextStyle(overflow: TextOverflow.ellipsis),
                         ),
-                      ),
-                    ],
+                        10.verticalSpace,
+                        Expanded(
+                          child: Column(
+                            children: note.todoItems
+                                .map(
+                                  (todo) => Row(
+                                    children: [
+                                      Icon(
+                                        CupertinoIcons.circle_filled,
+                                        size: 10.0,
+                                      ),
+                                      10.horizontalSpace,
+                                      Text(todo.title),
+                                    ],
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );

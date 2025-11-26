@@ -26,7 +26,7 @@ class Todo {
 /// ----------------------
 class Notes {
   final String? id;
-  final String title;
+  final String? title;
   final String? description;
   final String uid;
   final DateTime? createdAt;

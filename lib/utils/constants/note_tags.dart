@@ -28,4 +28,27 @@ class NoteTags {
     TagModel(label: NoteTags.health, color: NoteTags.healthColor),
     TagModel(label: NoteTags.other, color: NoteTags.otherColor),
   ];
+
+  // List of labels
+  static List<String> labels = [personal, work, finance, health, other];
+  static Map<String, Color> tagColors = {
+    "Personnel": personalColor,
+    "Travail": workColor,
+    "Finance": financeColor,
+    "Santé": healthColor,
+    "Autre": otherColor,
+  };
+  //
+  static List<TagModel> tagsFromLabels(List<String> tags) {
+    return List.generate(
+      tags.length,
+      (index) => TagModel(
+        label: labels.where((element) => element == tags[index]).first,
+        color: tagColors.entries
+            .where((element) => element.key == tags[index])
+            .first
+            .value,
+      ),
+    );
+  }
 }
