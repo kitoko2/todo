@@ -6,7 +6,7 @@ abstract class NoteRepository {
   Future<List<Notes>> getCurrentUserNotes();
   Future<void> createNote(Notes note);
   Future<void> updateNote(Notes note);
-  Future<void> deleteNote(Notes note);
+  Future<void> deleteNote(String noteId);
   Stream<QuerySnapshot> getNotesStream();
 }
 
@@ -40,8 +40,7 @@ class NoteRepositoryImpl implements NoteRepository {
     final result = FirebaseFirestore.instance
         .collection('notes')
         .where('uid', isEqualTo: uid)
-        // TODO: à revoir
-        // .orderBy('createdAt', descending: true)
+        .orderBy('createdAt', descending: true)
         .snapshots();
 
     return result;
@@ -72,14 +71,9 @@ class NoteRepositoryImpl implements NoteRepository {
   }
 
   @override
-  Future<void> deleteNote(Notes note) async {
+  Future<void> deleteNote(String noteId) async {
     try {
-      await _firebaseFirestore
-          .collection('users')
-          .doc(userId)
-          .collection('notes')
-          .doc(note.id)
-          .delete();
+      await _firebaseFirestore.collection('notes').doc(noteId).delete();
     } catch (e) {
       throw Exception("Erreur lors de la suppression de la note : $e");
     }

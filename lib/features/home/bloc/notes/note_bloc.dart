@@ -134,7 +134,9 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     } catch (e) {
       emit(state.copyWith(isLoading: false, message: e.toString()));
     } finally {
-      emit(state.copyWith(isLoading: false, message: null));
+      await Future.delayed(const Duration(seconds: 1), () {
+        emit(state.copyWith(isLoading: false, message: null, success: false));
+      });
     }
   }
 
@@ -147,7 +149,9 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
         state.copyWith(isLoading: false, message: e.toString(), success: false),
       );
     } finally {
-      emit(state.copyWith(isLoading: false, message: null));
+      await Future.delayed(const Duration(seconds: 1), () {
+        emit(state.copyWith(isLoading: false, message: null, success: false));
+      });
     }
   }
 
@@ -160,15 +164,24 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     } catch (e) {
       emit(state.copyWith(isLoading: false, message: e.toString()));
     } finally {
-      emit(state.copyWith(isLoading: false));
+      await Future.delayed(const Duration(seconds: 1), () {
+        emit(state.copyWith(isLoading: false, message: null, success: false));
+      });
     }
   }
 
   void _deleteNote(DeleteNoteEvent event, Emitter<NoteState> emit) async {
-    try {} catch (e) {
+    try {
+      await noteRepository.deleteNote(event.noteId);
+      emit(
+        state.copyWith(message: "Note supprimée avec succès.", success: true),
+      );
+    } catch (e) {
       emit(state.copyWith(isLoading: false, message: e.toString()));
     } finally {
-      emit(state.copyWith(isLoading: false, message: null));
+      await Future.delayed(const Duration(seconds: 1), () {
+        emit(state.copyWith(isLoading: false, message: null, success: false));
+      });
     }
   }
 }

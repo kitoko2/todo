@@ -48,71 +48,96 @@ class MyNotesView extends StatelessWidget {
                     extra: note,
                   );
                 },
-                child: Container(
-                  height: index.isEven
-                      ? NotesSize.cardSize
-                      : NotesSize.cardSize + 50,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: AppColors.card,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // create at
-                        Text(note.date),
-                        // title
-                        Text(
-                          note.title ?? "",
-                          maxLines: 2,
-                          style: TextStyle(
-                            fontSize: 17.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        10.verticalSpace,
-                        // TAG
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: note.tags
-                                .map((tag) => TagItem(tag: tag))
-                                .toList(),
-                          ),
-                        ),
+                child: Stack(
+                  children: [
+                    Container(
+                      height: index.isEven
+                          ? NotesSize.cardSize
+                          : NotesSize.cardSize + 50,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: AppColors.card,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // create at
+                            Text(note.date),
+                            // title
+                            Text(
+                              note.title ?? "",
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            10.verticalSpace,
+                            // TAG
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: note.tags
+                                    .map((tag) => TagItem(tag: tag))
+                                    .toList(),
+                              ),
+                            ),
 
-                        10.verticalSpace,
-                        // content
-                        Text(
-                          note.description ?? "",
-                          maxLines: index.isEven ? 2 : 6,
-                          style: TextStyle(overflow: TextOverflow.ellipsis),
-                        ),
-                        10.verticalSpace,
-                        Expanded(
-                          child: Column(
-                            children: note.todoItems
-                                .map(
-                                  (todo) => Row(
-                                    children: [
-                                      Icon(
-                                        CupertinoIcons.circle_filled,
-                                        size: 10.0,
+                            10.verticalSpace,
+                            // content
+                            Text(
+                              note.description ?? "",
+                              maxLines: index.isEven ? 2 : 6,
+                              style: TextStyle(overflow: TextOverflow.ellipsis),
+                            ),
+                            10.verticalSpace,
+                            Expanded(
+                              child: Column(
+                                children: note.todoItems
+                                    .map(
+                                      (todo) => Row(
+                                        children: [
+                                          Icon(
+                                            CupertinoIcons.circle_filled,
+                                            size: 10.0,
+                                          ),
+                                          10.horizontalSpace,
+                                          Text(todo.title),
+                                        ],
                                       ),
-                                      10.horizontalSpace,
-                                      Text(todo.title),
-                                    ],
-                                  ),
-                                )
-                                .toList(),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 3,
+                      right: 3,
+
+                      child: GestureDetector(
+                        onTap: () {
+                          bloc.add(DeleteNoteEvent(noteId: note.id!));
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: AppColors.border),
+                            color: AppColors.badge,
+                          ),
+                          child: Icon(
+                            CupertinoIcons.xmark,
+                            color: Colors.white,
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               );
             },

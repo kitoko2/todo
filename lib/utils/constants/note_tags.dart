@@ -1,11 +1,15 @@
 // create tag model
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-class TagModel {
+class TagModel extends Equatable {
   final String label;
   final Color color;
 
-  TagModel({required this.label, required this.color});
+  const TagModel({required this.label, required this.color});
+
+  @override
+  List<Object?> get props => [label, color];
 }
 
 class NoteTags {

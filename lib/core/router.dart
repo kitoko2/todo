@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todo/core/di_files/di.dart';
 import 'package:todo/features/authentication/authentication_page.dart';
 import 'package:todo/features/authentication/register_page.dart';
+import 'package:todo/features/home/bloc/groupes/group_bloc.dart';
 import 'package:todo/features/home/bloc/notes/note_bloc.dart';
 import 'package:todo/features/home/home_page.dart';
 import 'package:todo/features/home/pages/create_note.dart';
@@ -52,10 +53,22 @@ class AppRouter {
       GoRoute(
         path: '/${HomePage.routeName}',
         name: HomePage.routeName,
-        builder: (context, state) => BlocProvider(
-          create: (BuildContext context) => getIt<NoteBloc>(),
-          child: const HomePage(),
-        ),
+        builder: (context, state) => MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (BuildContext context) => getIt<NoteBloc>(),
+            ),
+            BlocProvider(
+              create: (BuildContext context) => getIt<GroupBloc>(),
+            ),
+            
+          ],
+        child: const HomePage(),
+          )
+        //   BlocProvider(
+        //   create: (BuildContext context) => getIt<NoteBloc>(),
+        //   child: const HomePage(),
+        // ),
       ),
       // Create note page
       GoRoute(

@@ -1,0 +1,13 @@
+
+
+Création de groupe 
+
+Associer des personnes a ce groupe  avezc leurs pseudo unique | email 
+
+Associer des notes dans ce groupe 
+
+
+// 
+
+User vois les groupes dans lesquels il appartient 
+peut

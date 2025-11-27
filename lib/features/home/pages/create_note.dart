@@ -49,8 +49,14 @@ class _CreateNoteViewState extends State<CreateNoteView> {
   Widget build(BuildContext context) {
     return BlocConsumer<NoteBloc, NoteState>(
       listener: (context, state) {
-        if (state.success == true) {
-          context.goNamed(HomePage.routeName);
+        if (state.success != null && state.message != null) {
+          ScaffoldMessenger.of(
+            context,
+          ).hideCurrentSnackBar(reason: SnackBarClosedReason.dismiss);
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text("🔔 ${state.message}")));
+          context.pop();
         }
       },
       builder: (context, state) {
@@ -289,7 +295,6 @@ List<Widget> appBarActions({
     IconButton(
       icon: Icon(CupertinoIcons.check_mark, color: AppColors.primary500),
       onPressed: () {
-        
         logic.add(
           (noteid != null)
               ? UpdateNoteEvent(
